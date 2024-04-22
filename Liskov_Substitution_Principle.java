@@ -33,7 +33,8 @@ class FlightlessBird implements Bird {
 
     @Override
     public void fly() {
-        throw new UnsupportedOperationException(name + " cannot fly.");
+        // Do nothing for flightless birds
+        System.out.println(name + " cannot fly.");
     }
 }
 
@@ -58,16 +59,15 @@ public class Liskov_Substitution_Principle {
         Zoo zoo = new Zoo();
         zoo.letBirdsFly(eagle, sparrow);
 
-        // Adding a flightless bird would break LSP
-        // FlightlessBird penguin = new FlightlessBird("Penguin");
-        // zoo.letBirdsFly(penguin); // This would throw an exception
+        // Adding a flightless bird would not break LSP
+        FlightlessBird penguin = new FlightlessBird("Penguin");
+        zoo.letBirdsFly(penguin); // This would print "Penguin cannot fly."
     }
 }
 
 /**
- * This code violates the Liskov Substitution Principle (LSP) because:
- * - The `Zoo` class expects all birds to be able to fly, but adding a `FlightlessBird` breaks this assumption.
- * - To adhere to LSP, the `Zoo` class should work with subclasses without breaking. Using a hierarchy that respects capabilities avoids breaking LSP.
- * 
- * Fixing this code to align with LSP would involve redefining the contract so that subclasses are consistent with the base class's expectations.
+ * This code adheres to the Liskov Substitution Principle (LSP) because:
+ * - The `Zoo` class works with all types of birds, including both flying and flightless birds.
+ * - The behavior of each bird subclass respects the contract specified by the `Bird` interface, ensuring that substitution does not alter the correctness of the program.
+ * - The `letBirdsFly()` method of the `Zoo` class handles birds without making assumptions about their flying capability, thus supporting extensibility and maintainability.
  */
